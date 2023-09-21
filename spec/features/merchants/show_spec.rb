@@ -53,7 +53,7 @@ RSpec.describe "Merchant Dashboard", type: :feature do
             }
   end
   describe "As a merchant" do
-    describe "When i viist my dashboard (/merchants/:merchant_id/dashboard)" do
+    describe "When i vist my dashboard (/merchants/:merchant_id/dashboard)" do
       it "Then i see the name of my merchant" do
 
         visit "/merchants/#{@merchant_1.id}/dashboard"
@@ -132,6 +132,16 @@ RSpec.describe "Merchant Dashboard", type: :feature do
 
         expect(invoice_1_index.to_i < invoice_2_index.to_i).to be_truthy
         expect(invoice_2_index.to_i < invoice_3_index.to_i).to be_truthy
+      end
+
+      it "I see a link to view all my discounts, the link takes me to my bulk discounts index page" do
+        visit merchant_dashboard_path(@merchant_2)
+
+        within(".merchant_links") do
+          click_on "View all my Discounts"
+        end
+
+        expect(current_path).to eq("/merchants/#{@merchant_2.id}/bulk_discounts")
       end
     end
   end
