@@ -1,5 +1,6 @@
 <h1><%= @merchant.name %> Discounts Page</h1>
 <br>
+<%= link_to "Create a new Discount", new_merchant_bulk_discount_path(@merchant) %>
 <section id="discounts">
   <dl>
     <% @merchant.bulk_discounts.each do |discount| %>

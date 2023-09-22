@@ -32,6 +32,18 @@ RSpec.describe "Merchant Bulk Disconts Index Page", type: :feature do
           expect(page).not_to have_content(discount4.id)
         end
       end
+
+      it "Then i see a link to create a new discount, I click it and am taken to a new page with the form" do
+        merchant1 = create(:merchant)
+        
+        visit merchant_bulk_discounts_path(merchant1)
+
+        expect(page).to have_link("Create a new Discount", href: "/merchants/#{merchant1.id}/bulk_discounts/new")
+
+        click_on "Create a new Discount"
+
+        expect(current_path).to eq("/merchants/#{merchant1.id}/bulk_discounts/new")
+      end
     end
   end
 end
