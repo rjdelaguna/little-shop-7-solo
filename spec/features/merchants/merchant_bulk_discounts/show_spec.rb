@@ -18,6 +18,9 @@ RSpec.describe "Merchant Bulk Discounts Show Page", type: :feature do
       it "Then I see a link to edit the bulk discount, when I click it I am taken to the edit page" do
 
         expect(page).to have_link("Edit this Discount", href: "/merchants/#{@merchant.id}/bulk_discounts/#{@discount.id}/edit")
+
+        click_on "Edit this Discount"
+        expect(current_path).to eq(edit_merchant_bulk_discount_path(@merchant, @discount))
       end
     end
   end
