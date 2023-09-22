@@ -65,5 +65,3 @@ RSpec.describe "Merchant Bulk Disconts Index Page", type: :feature do
     end
   end
 end
-            
-
