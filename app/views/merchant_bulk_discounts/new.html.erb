@@ -1,0 +1,9 @@
+<h2> New discount Form</h2>
+<br>
+<%= form_with url: merchant_bulk_discounts_path(@merchant), method: :post, data: {turbo: false} do |form| %>
+  <%= form.label :percentage %><br>
+  <p><%= form.number_field :percentage, in: 1..100, step: 1 %>%</p><br>
+  <%= form.label :threshold %><br>
+  <p><%= form.number_field :threshold, in: 1..100, step: 1 %> Items</p><br>
+  <%= form.submit "Submit" %>
+<% end %>
