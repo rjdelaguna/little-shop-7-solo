@@ -17,5 +17,6 @@
 </section>
 <h3>Potential Revenue:</h3>
 <section class="revenue">
-  <p>Total revenue: <%= @invoice.total_revenue %></p>
+  <p>Total revenue: <%= number_to_currency(@invoice.total_revenue) %></p>
+  <p>Total discounted revenue: <%= number_to_currency(@invoice.discounted_revenue) %></p>
 </section>
