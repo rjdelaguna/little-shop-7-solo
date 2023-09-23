@@ -42,7 +42,18 @@ RSpec.describe "Merchant Invoices show", type: :feature do
         visit "/merchants/#{@merchant_2.id}/invoices/#{@invoice_1.id}"
 
         within(".revenue") do
-          expect(page).to have_content("Total revenue: 6.0")
+          expect(page).to have_content("Total revenue: $6.00")
+        end
+      end
+
+      it "Then I see the total discounted revenue for the merchant from this invoice" do
+        InvoiceItem.create!(item_id: @spinner.id, invoice_id: @invoice_2.id, quantity: 10, status: 0, unit_price: 100)
+        BulkDiscount.create!(merchant_id: @merchant_2.id, percentage: 50, threshold: 30)
+
+        visit merchant_invoice_path(@merchant_2, @invoice_2)
+
+        within(".revenue") do
+          expect(page).to have_content("Total discounted revenue: $25.00")
         end
       end
     end
