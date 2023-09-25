@@ -11,6 +11,17 @@ class InvoiceItem < ApplicationRecord
     Item.find(self.item_id)
   end
 
+  def price
+    unit_price / 100.0
+  end
+
+  def discount
+    item.merchant.bulk_discounts
+    .where("#{self.quantity} >= threshold")
+    .order('percentage desc')
+    .first
+  end
+
   def self.find_invoice_items(invoice)
     all.where('invoice_id = ?', invoice.id)
   end

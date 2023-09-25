@@ -29,13 +29,21 @@ class Invoice < ApplicationRecord
     discounted = invoice_items
     .joins(item: {merchant: :bulk_discounts})
     .where('quantity >= bulk_discounts.threshold')
-    .sum('(quantity * invoice_items.unit_price) * (bulk_discounts.percentage / 100.0)')
-    
+    .select('invoice_items.*, max(bulk_discounts.percentage) as highest_percentage')
+    .group(:id)
+    .sum { |each| ((each.quantity * each.unit_price) * (1.0 - (each.highest_percentage / 100.00)) / 100.0)}
+
     full_price = invoice_items
     .joins(item: {merchant: :bulk_discounts})
-    .where('quantity < bulk_discounts.threshold')
-    .sum('quantity * invoice_items.unit_price')
-    
-    (discounted + full_price) / 100.00
+    .select('distinct invoice_items.*, (quantity * invoice_items.unit_price) as revenue, min(bulk_discounts.threshold) as lowest_threshold')
+    .group(:id)
+    .sum do |each| 
+      if each.lowest_threshold > each.quantity
+        each.revenue / 100.0
+      else
+        0
+      end
+    end
+    discounted + full_price
   end
 end

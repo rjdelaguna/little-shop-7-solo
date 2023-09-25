@@ -49,11 +49,24 @@ RSpec.describe "Merchant Invoices show", type: :feature do
       it "Then I see the total discounted revenue for the merchant from this invoice" do
         InvoiceItem.create!(item_id: @spinner.id, invoice_id: @invoice_2.id, quantity: 10, status: 0, unit_price: 100)
         BulkDiscount.create!(merchant_id: @merchant_2.id, percentage: 50, threshold: 30)
+        BulkDiscount.create!(merchant_id: @merchant_2.id, percentage: 25, threshold: 30)
 
         visit merchant_invoice_path(@merchant_2, @invoice_2)
 
         within(".revenue") do
           expect(page).to have_content("Total discounted revenue: $25.00")
+        end
+      end
+
+      it "Next to each invoice item I see a link to the show page for the bulk discount applied, if any" do
+        InvoiceItem.create!(item_id: @spinner.id, invoice_id: @invoice_2.id, quantity: 10, status: 0, unit_price: 100)
+        discount1 = BulkDiscount.create!(merchant_id: @merchant_2.id, percentage: 50, threshold: 30)
+        discount2 = BulkDiscount.create!(merchant_id: @merchant_2.id, percentage: 25, threshold: 30)
+
+        visit merchant_invoice_path(@merchant_2, @invoice_2)
+
+        within(".items_list") do
+          expect(page).to have_content("Discount: ID #{discount1.id} applied")
         end
       end
     end
