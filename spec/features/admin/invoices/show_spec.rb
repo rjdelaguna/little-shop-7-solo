@@ -17,7 +17,8 @@ RSpec.describe "the admin_invoices id show page", type: :feature do
         @invoice_item1 = InvoiceItem.create!(item_id: @item1.id, invoice_id: @invoice1.id, quantity: 1, unit_price: 10, status: 2)
         @invoice_item2 = InvoiceItem.create!(item_id: @item2.id, invoice_id: @invoice1.id, quantity: 2, unit_price: 20, status: 2)
         @invoice_item3 = InvoiceItem.create!(item_id: @item3.id, invoice_id: @invoice1.id, quantity: 3, unit_price: 30, status: 2)
-        
+        BulkDiscount.create!(merchant_id: @merchant1.id, percentage: 50, threshold: 3)
+        BulkDiscount.create!(merchant_id: @merchant1.id, percentage: 25, threshold: 2)
         visit "/admin/invoices/#{@invoice1.id}"
       end
 
@@ -70,6 +71,11 @@ RSpec.describe "the admin_invoices id show page", type: :feature do
         expect(current_path).to eq("/admin/invoices/#{invoice.id}")
         
         expect(page).to have_content("in progress")
+      end
+
+      it "I see the total discounted revenue from this invoice" do
+        
+        expect(page).to have_content(@invoice1.discounted_revenue)
       end
     end
   end
