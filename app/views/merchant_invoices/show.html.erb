@@ -1,11 +1,21 @@
 <h1>Invoice id: <%= @invoice.id %></h1>
+<h3>Potential Revenue:</h3>
+<section class="revenue">
+  <p>Total revenue: <%= number_to_currency(@invoice.total_revenue) %></p>
+  <p>Total discounted revenue: <%= number_to_currency(@invoice.discounted_revenue) %></p>
+</section>
 <h3>Items on this invoice:</h3>
 <section class="items_list">
   <% @invoice_items.each do |invoice_item| %>
     <section class="invoice_info">
       <li>Item name: <%= invoice_item.find_item.name %></li>
       <li>Quantity ordered: <%= invoice_item.quantity %></li>
-      <li>Price: <%= invoice_item.unit_price %></li>
+      <li>Price: <%= number_to_currency(invoice_item.price) %></li>
+      <% if invoice_item.discount != nil %>
+        <li>Discount: <%= link_to "ID #{invoice_item.discount.id} applied", merchant_bulk_discount_path(invoice_item.discount) %></li>
+      <% else %>
+        <li>Discount: None</li>
+      <% end %>
       <li>Status: <%= form_with model: invoice_item, data: {turbo: false} do |f| %>
         <%= hidden_field_tag(:merchant_id, invoice_item.item.merchant_id) %>
         <%= f.select :status, options_for_select(InvoiceItem.statuses.keys, invoice_item.status) %>
@@ -14,9 +24,4 @@
       <hr />
     </section>
   <% end %>
-</section>
-<h3>Potential Revenue:</h3>
-<section class="revenue">
-  <p>Total revenue: <%= number_to_currency(@invoice.total_revenue) %></p>
-  <p>Total discounted revenue: <%= number_to_currency(@invoice.discounted_revenue) %></p>
 </section>

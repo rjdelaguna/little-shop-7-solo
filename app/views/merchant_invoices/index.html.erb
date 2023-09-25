@@ -1,7 +1,7 @@
 <h1><%= @merchant.name %></h1>
 <h3>Invoices:</h3>
 <section class="invoice_list">
-  <% @merchant.invoices.each do |invoice| %>
+  <% @merchant.invoices.distinct.each do |invoice| %>
     <ul>
       <li>Invoice Id: <%= link_to invoice.id, "/merchants/#{@merchant.id}/invoices/#{invoice.id}" %></li>
       <li>Invoice Status: <%= invoice.status %></li>
