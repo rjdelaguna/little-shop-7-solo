@@ -44,6 +44,7 @@ class Invoice < ApplicationRecord
         0
       end
     end
+    
     discounted + full_price
   end
 end
