@@ -33,7 +33,6 @@ RSpec.describe "Merchant Invoices show", type: :feature do
           expect(page).to have_content("Quantity ordered: 20")
           expect(page).to have_content('Price: 30')
           expect(page).to have_select 'invoice_item_status', selected: "pending"
-
         end
       end
       

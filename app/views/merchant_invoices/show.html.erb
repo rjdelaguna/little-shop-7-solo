@@ -12,7 +12,7 @@
       <li>Quantity ordered: <%= invoice_item.quantity %></li>
       <li>Price: <%= number_to_currency(invoice_item.price) %></li>
       <% if invoice_item.discount != nil %>
-        <li>Discount: <%= link_to "ID #{invoice_item.discount.id} applied", merchant_bulk_discount_path(invoice_item.discount) %></li>
+        <li>Discount: <%= link_to "ID #{invoice_item.discount.id} applied", merchant_bulk_discount_path(invoice_item.item.merchant, invoice_item.discount) %></li>
       <% else %>
         <li>Discount: None</li>
       <% end %>
