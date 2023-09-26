@@ -31,7 +31,7 @@ RSpec.describe "Merchant Invoices show", type: :feature do
         within(".invoice_info") do
           expect(page).to have_content("Item name: #{@spinner.name}")
           expect(page).to have_content("Quantity ordered: 20")
-          expect(page).to have_content('Price: 30')
+          expect(page).to have_content('Price: $0.30')
           expect(page).to have_select 'invoice_item_status', selected: "pending"
         end
       end

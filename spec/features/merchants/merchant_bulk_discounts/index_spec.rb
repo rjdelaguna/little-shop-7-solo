@@ -31,8 +31,8 @@ RSpec.describe "Merchant Bulk Disconts Index Page", type: :feature do
             expect(page).to have_link("Go to Discount: #{@discount2.id}'s Show Page", href: "/merchants/#{@merchant1.id}/bulk_discounts/#{@discount2.id}")
           end
 
-          expect(page).not_to have_content(@discount3.id)
-          expect(page).not_to have_content(@discount4.id)
+          expect(page).not_to have_content("ID: #{@discount3.id}")
+          expect(page).not_to have_content("ID: #{@discount4.id}")
         end
       end
 
